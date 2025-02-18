@@ -1,0 +1,37 @@
+# Aim: Word Break-II.
+
+# Code:
+class Solution {
+public:
+    int n;
+    unordered_set<string> words;
+    string s_cpy;
+    string path;
+    vector<string> solution;
+
+    void solve(int i){
+        if(i == n){
+            path.pop_back();
+            solution.push_back(path);
+            return;
+        }
+        for(int len = 1; i + len <= n; len++){
+            string sub = s_cpy.substr(i, len);
+            if(words.find(sub) != words.end()){
+                int size = path.size();
+                path += sub; 
+                path.push_back(' ');
+                solve(i + len); 
+                path.resize(size);
+            }
+        }
+    }
+
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        n = s.size();
+        words = unordered_set<string>(wordDict.begin(), wordDict.end());
+        s_cpy = s;
+        solve(0);
+        return solution;
+    }
+};
