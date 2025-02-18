@@ -1,0 +1,27 @@
+# Aim:
+ To determine the total number of ways a given numeric string can be decoded into letters using the mapping "1" → 'A', "2" → 'B', ..., "26" → 'Z'.
+
+# Objectives:
+Decode Possible Combinations: Count the number of valid ways to decode the numeric string.
+Use Dynamic Programming: Implement an efficient DP approach to avoid redundant computations and achieve O(n) time complexity.
+Avoid Invalid Decodings: Ensure that "0" is handled correctly (e.g., "06" is not valid, but "10" and "20" are).
+
+# code:
+class Solution {
+public:
+    int numDecodings(string s) {
+        int n = s.size();
+        int f[n + 1];
+        memset(f, 0, sizeof(f));
+        f[0] = 1;
+        for (int i = 1; i <= n; ++i) {
+            if (s[i - 1] != '0') {
+                f[i] = f[i - 1];
+            }
+            if (i > 1 && (s[i - 2] == '1' || s[i - 2] == '2' && s[i - 1] <= '6')) {
+                f[i] += f[i - 2];
+            }
+        }
+        return f[n];
+    }
+};
