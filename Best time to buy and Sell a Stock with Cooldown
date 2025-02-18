@@ -1,0 +1,15 @@
+# Aim:  
+To determine the maximum profit that can be achieved by buying and selling stocks multiple times while following the restriction that after selling a stock,
+you must wait (cooldown) one day before buying again.
+
+#code: 
+int maxProfit(vector<int> &prices) {
+    int buy(INT_MIN), sell(0), prev_sell(0), prev_buy;
+    for (int price : prices) {
+        prev_buy = buy;
+        buy = max(prev_sell - price, buy);
+        prev_sell = sell;
+        sell = max(prev_buy + price, sell);
+    }
+    return sell;
+}
